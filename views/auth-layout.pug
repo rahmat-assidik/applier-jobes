@@ -1,0 +1,23 @@
+doctype html
+html(lang='id')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='theme-color', content='#f5f7fb')
+    title= title + ' | Applier Jobes'
+    link(rel='icon', href='/favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body.auth-body
+    main.auth-page
+      a.brand.auth-brand(href='/login', aria-label='Applier Jobes')
+        span.brand-mark(aria-hidden='true')
+          svg(viewBox='0 0 32 32', fill='none')
+            rect(width='32', height='32', rx='10', fill='currentColor')
+            path(d='M9 17.5 14 22l9-12', stroke='white', stroke-width='3', stroke-linecap='round', stroke-linejoin='round')
+        span applier
+          span.brand-light jobes
+      .auth-card
+        block content
+      p.auth-footnote Dengan menggunakan Applier Jobes, kamu tetap mengendalikan data dan setiap lamaran.
+    include partials/feedback-toast.pug
+    script(src='/javascripts/feedback.js', defer)

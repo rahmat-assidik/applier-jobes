@@ -1,0 +1,9 @@
+extends auth-layout
+
+block content
+  p.auth-kicker IMPOR LOWONGAN
+  h1 Masuk untuk melanjutkan
+  p.auth-copy Data lowongan pilihan akan dipertahankan sementara di tab ini. Setelah masuk, kamu dapat meninjau dan mengonfirmasi impor.
+  p#browserImportLoginMessage.auth-copy(role='status' aria-live='polite') Mengalihkan ke halaman masuk…
+  a.button.button-primary.auth-submit(href='/login') Masuk ke Applier Jobes
+  script(src='/javascripts/browser-import-login.js' defer)

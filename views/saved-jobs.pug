@@ -1,0 +1,43 @@
+extends layout
+
+include partials/pagination.pug
+
+block content
+  section.page-heading
+    p.eyebrow DAFTAR KERJA
+    h1 Lowongan tersimpan
+    p.welcome-copy Kumpulan peluang yang kamu tandai untuk ditinjau kembali.
+  .panel
+    .panel-heading
+      div
+        h2 #{pagination.totalItems} lowongan disimpan
+        p Daftar ini hanya dapat dilihat oleh akunmu.
+      a.text-button(href='/jobs') Cari lowongan →
+    if jobs.length
+      .job-list
+        each job in jobs
+          article.job-card.job-card-detail
+            .job-logo= job.company_name.substring(0, 1)
+            .job-main
+              h2= job.title
+              p.company-line #{job.company_name} · #{job.location}
+              .job-tags
+                span= job.work_mode
+                span= job.employment_type
+                span= formatMoney(job.salary_min) + ' – ' + formatMoney(job.salary_max)
+              p.job-description= job.description
+              small.job-posted
+                | #{job.source_name} · Disimpan · Diposting #{formatDate(job.published_at)}
+            .job-actions
+              if job.apply_url
+                a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat sumber
+              form(method='post', action='/jobs/' + job.id + '/save')
+                input(type='hidden', name='_csrf', value=csrfToken)
+                input(type='hidden', name='returnTo', value='/saved-jobs?page=' + pagination.page)
+                button.button.button-outline(type='submit', name='action', value='remove') Hapus simpanan
+              form(method='post', action='/jobs/' + job.id + '/apply')
+                input(type='hidden', name='_csrf', value=csrfToken)
+                button.button.button-primary(type='submit') Siapkan draft
+    else
+      .empty-state Belum ada lowongan tersimpan. Kunjungi halaman cari lowongan untuk menyimpan peluang.
+    +paginationControls(pagination)

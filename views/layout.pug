@@ -1,0 +1,102 @@
+doctype html
+html(lang='id')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='theme-color', content='#f5f7fb')
+    meta(name='description', content='Applier Jobes — ruang kerja pencarian pekerjaan.')
+    title= title + ' | Applier Jobes'
+    link(rel='icon', href='/favicon.ico')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    mixin navIcon(name)
+      svg(viewBox='0 0 24 24', aria-hidden='true')
+        if name === 'dashboard'
+          rect(x='3.5', y='3.5', width='7', height='7', rx='1.5')
+          rect(x='13.5', y='3.5', width='7', height='5', rx='1.5')
+          rect(x='13.5', y='12.5', width='7', height='8', rx='1.5')
+          rect(x='3.5', y='13.5', width='7', height='7', rx='1.5')
+        else if name === 'jobs' || name === 'saved'
+          circle(cx='10.8', cy='10.8', r='6.8')
+          path(d='m16 16 4.5 4.5M8 10.8h5.6')
+        else if name === 'applications'
+          path(d='M7 3.5h7l4 4v13H7a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2Z')
+          path(d='M14 3.5v4h4M8.5 12h7M8.5 16h7')
+        else if name === 'automation'
+          path(d='M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2.1 2.1m7.8 7.8L18 18m0-12-2.1 2.1m-7.8 7.8L6 18')
+          circle(cx='12', cy='12', r='4.3')
+        else if name === 'profile'
+          circle(cx='12', cy='8', r='3.5')
+          path(d='M5 20a7 7 0 0 1 14 0')
+        else
+          circle(cx='12', cy='12', r='3')
+          path(d='M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.6 2.7-.2-.1a1.7 1.7 0 0 0-1.8.2l-.2.1h-3l-.1-.2a1.7 1.7 0 0 0-1.5-1.1h-.2l-1.6-2.7.1-.2a1.7 1.7 0 0 0 0-1.8l-.1-.2 1.6-2.7h.2a1.7 1.7 0 0 0 1.5-1.1l.1-.2h3l.2.1a1.7 1.7 0 0 0 1.8.2l.2-.1 1.6 2.7-.1.1a1.7 1.7 0 0 0-.3 1.9Z')
+    .app-shell
+      aside.sidebar#sidebar(aria-label='Navigasi utama')
+        .sidebar-heading
+          a.brand(href='/dashboard', aria-label='Applier Jobes, dashboard')
+            span.brand-mark(aria-hidden='true')
+              svg(viewBox='0 0 32 32', fill='none')
+                rect(width='32', height='32', rx='10', fill='currentColor')
+                path(d='M9 17.5 14 22l9-12', stroke='white', stroke-width='3', stroke-linecap='round', stroke-linejoin='round')
+            span applier
+              span.brand-light jobes
+          button.icon-button.mobile-nav-close#mobileNavClose(type='button', aria-label='Tutup navigasi')
+            svg(viewBox='0 0 24 24', aria-hidden='true')
+              path(d='m6 6 12 12M18 6 6 18')
+        .workspace-label WORKSPACE
+        nav.primary-nav
+          each item in navItems
+            a.nav-link(class=activeNav === item.key ? 'active' : '', href=item.href, aria-current=activeNav === item.key ? 'page' : null)
+              +navIcon(item.icon)
+              span= item.label
+        .sidebar-bottom
+          .help-card
+            .help-icon(aria-hidden='true')
+              svg(viewBox='0 0 24 24')
+                circle(cx='12', cy='12', r='9')
+                path(d='M9.6 9a2.5 2.5 0 1 1 4.3 1.8c-1.1 1-1.9 1.4-1.9 3M12 17.5h.01')
+            strong Butuh bantuan?
+            p Kelola pencarian kerja dengan lebih teratur.
+            a(href='/settings') Pengaturan akun
+          .user-card
+            span.avatar= currentUser.name.substring(0, 1).toUpperCase()
+            span.user-info
+              strong= currentUser.name
+              small= currentUser.email
+            form(method='post', action='/logout')
+              input(type='hidden', name='_csrf', value=csrfToken)
+              button.icon-button.logout-button(type='submit', aria-label='Keluar dari akun')
+                svg(viewBox='0 0 24 24', aria-hidden='true')
+                  path(d='M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6')
+      button.sidebar-backdrop#sidebarBackdrop(type='button', aria-label='Tutup navigasi')
+      main.main-content#mainContent
+        header.topbar
+          button.icon-button.mobile-menu#mobileMenu(type='button', aria-label='Buka navigasi', aria-expanded='false', aria-controls='sidebar')
+            svg(viewBox='0 0 24 24', aria-hidden='true')
+              path(d='M4 7h16M4 12h16M4 17h16')
+          .breadcrumb
+            span Workspace
+            span.breadcrumb-slash /
+            strong= title
+          .topbar-actions
+            form.global-search(action='/jobs', method='get', role='search')
+              svg(viewBox='0 0 24 24', aria-hidden='true')
+                circle(cx='10.8', cy='10.8', r='6.8')
+                path(d='m16 16 4.5 4.5')
+              input(type='search', name='q', placeholder='Cari posisi, perusahaan...', aria-label='Cari posisi atau perusahaan')
+              kbd /
+            span.topbar-divider
+            span.profile-mini
+              span.avatar= currentUser.name.substring(0, 1).toUpperCase()
+              span.profile-name= currentUser.name
+        .page-wrap
+          block content
+          footer.page-footer
+            span © 2026 Applier Jobes
+            span Contoh lowongan tersedia untuk pengembangan lokal.
+            a(href='/settings') Pengaturan privasi
+    include partials/feedback-toast.pug
+    script(src='/javascripts/browser-import-resume.js', defer)
+    script(src='/javascripts/navigation.js', defer)
+    script(src='/javascripts/feedback.js', defer)

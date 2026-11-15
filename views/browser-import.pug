@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  section.page-heading
+    p.eyebrow IMPOR LOWONGAN
+    h1 Dari halaman karier
+    p.welcome-copy Tinjau lowongan yang ditemukan di browser sebelum menambahkannya ke daftar pencarian.
+  section.panel.browser-import-panel#browserImportApp(data-csrf=csrfToken)
+    .panel-heading
+      div
+        h2 Konfirmasi lowongan
+        p Hanya data yang kamu pilih yang akan disimpan ke Applier Jobes.
+    .browser-import-content
+      p.browser-import-message#browserImportMessage(role='status' aria-live='polite') Membaca data pilihan…
+      ul.browser-import-list#browserImportList
+      button.button.button-primary#browserImportSubmit(type='button' disabled) Impor pilihan
+      a.button.button-outline.browser-import-back(href='/jobs') Kembali ke cari lowongan
+  script(src='/javascripts/browser-import.js' defer)

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  section.page-heading
+    p.eyebrow AKUN & KEAMANAN
+    h1 Pengaturan
+    p.welcome-copy Kelola keamanan akun dan keluar dari sesi saat ini.
+  .settings-layout
+    section.panel
+      .panel-heading
+        div
+          h2 Ganti kata sandi
+          p Gunakan kata sandi unik dengan panjang minimal 10 karakter.
+      form.settings-form(method='post', action='/settings/password')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        label(for='currentPassword') Kata sandi saat ini
+        input#currentPassword(type='password', name='currentPassword', required, maxlength='72', autocomplete='current-password')
+        label(for='newPassword') Kata sandi baru
+        input#newPassword(type='password', name='newPassword', required, minlength='10', maxlength='72', autocomplete='new-password')
+        button.button.button-primary(type='submit') Perbarui kata sandi
+    aside.panel.account-card
+      .panel-heading
+        div
+          h2 Sesi akun
+          p Akun yang sedang digunakan.
+      p.account-name= currentUser.name
+      p.account-email= currentUser.email
+      form(method='post', action='/logout')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        button.button.button-outline(type='submit') Keluar dari akun

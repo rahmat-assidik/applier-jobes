@@ -1,0 +1,27 @@
+mixin paginationControls(pagination)
+  if pagination && pagination.totalItems
+    .pagination-footer
+      p.pagination-summary(aria-live='polite') Menampilkan #{pagination.startItem}–#{pagination.endItem} dari #{pagination.totalItems} data
+      if pagination.totalPages > 1
+        nav.pagination-nav(aria-label='Navigasi halaman')
+          if pagination.hasPrevious
+            a.pagination-step(href=pagination.previousUrl) Sebelumnya
+          else
+            span.pagination-step.is-disabled(aria-disabled='true') Sebelumnya
+          if pagination.showFirstPage
+            a.pagination-number(href=pagination.firstUrl, aria-label='Halaman 1') 1
+          if pagination.showLeadingEllipsis
+            span.pagination-ellipsis(aria-hidden='true') …
+          each pageLink in pagination.pages
+            if pageLink.current
+              span.pagination-number.is-current(aria-current='page', aria-label='Halaman ' + pageLink.number)= pageLink.number
+            else
+              a.pagination-number(href=pageLink.url, aria-label='Halaman ' + pageLink.number)= pageLink.number
+          if pagination.showTrailingEllipsis
+            span.pagination-ellipsis(aria-hidden='true') …
+          if pagination.showLastPage
+            a.pagination-number(href=pagination.lastUrl, aria-label='Halaman ' + pagination.totalPages)= pagination.totalPages
+          if pagination.hasNext
+            a.pagination-step(href=pagination.nextUrl) Berikutnya
+          else
+            span.pagination-step.is-disabled(aria-disabled='true') Berikutnya

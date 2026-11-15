@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Impor lowongan</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">APPLIER JOBES</p>
+        <h1>Impor dari browser</h1>
+        <p class="intro">Impor semua kartu lowongan yang sudah tampil pada halaman aktif.</p>
+      </header>
+      <label class="app-origin-label" for="appOrigin">Alamat Applier Jobes (bukan situs lowongan)</label>
+      <div class="app-origin-row">
+        <input id="appOrigin" type="url" autocomplete="url" spellcheck="false">
+        <button id="saveOrigin" class="button button-muted" type="button">Simpan</button>
+      </div>
+      <button id="scanPage" class="button button-primary" type="button">Pindai halaman ini</button>
+      <p id="status" class="status" role="status" aria-live="polite">Pindai halaman hasil filter. Maksimal 50 lowongan per impor.</p>
+      <ul id="results" class="results" aria-label="Lowongan ditemukan"></ul>
+      <button id="sendJobs" class="button button-primary" type="button" disabled>Buka Applier Jobes untuk meninjau</button>
+      <p class="notice">Hanya halaman aktif yang dibaca; ekstensi tidak membuka halaman berikutnya. Pastikan situs mengizinkan penggunaan datanya.</p>
+    </main>
+    <script src="job-extractor.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

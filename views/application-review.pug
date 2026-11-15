@@ -1,0 +1,68 @@
+extends layout
+
+block content
+  section.page-heading
+    p.eyebrow ASISTEN LAMARAN TERPANDU
+    h1 Tinjau sebelum melamar
+    p.welcome-copy Ikuti langkah berikut. Kamu tetap meninjau dan mengirim lamaran sendiri di situs perusahaan.
+  .review-layout
+    .panel
+      .panel-heading
+        div
+          h2= application.title
+          p #{application.company_name} · #{application.location}
+      .guided-apply-checklist
+        h3 Checklist sebelum melamar
+        ol
+          li
+            span.checklist-step-number 1
+            span Periksa posisi, perusahaan, lokasi, dan sumber lowongan di bawah.
+          li(class=application.headline && application.profile_location ? 'checklist-complete' : '')
+            span.checklist-step-number 2
+            span
+              | Lengkapi headline dan lokasi profil.
+              if !(application.headline && application.profile_location)
+                a(href='/profile') Buka profil
+          li(class=application.cv_original_name ? 'checklist-complete' : '')
+            span.checklist-step-number 3
+            span
+              | Siapkan CV untuk diunggah pada formulir perusahaan.
+              if application.cv_original_name
+                |  CV tersimpan: #{application.cv_original_name}.
+              else
+                a(href='/profile') Unggah CV
+          li
+            span.checklist-step-number 4
+            span Buka formulir perusahaan, jawab pertanyaan dengan benar, lalu kirim lamaran.
+      .review-details
+        p
+          strong Sumber lowongan
+          span= application.source_name
+        p
+          strong Status saat ini
+          span= application.status
+        p
+          strong CV
+          if application.cv_original_name
+            a(href='/profile/cv/download')= application.cv_original_name
+          else
+            a(href='/profile') Unggah CV dari halaman profil
+      .review-actions
+        if application.apply_url
+          a.button.button-primary(href=application.apply_url, target='_blank', rel='noopener noreferrer') Buka formulir perusahaan
+        else
+          p.alert.alert-info Tautan lamaran langsung tidak tersedia untuk lowongan ini.
+        if application.status !== 'submitted'
+          form(method='post', action='/applications/' + application.id + '/mark-submitted')
+            input(type='hidden', name='_csrf', value=csrfToken)
+            button.button.button-outline(type='submit') Saya sudah mengirim lamaran
+        else
+          span.status-pill.status-submitted Sudah ditandai terkirim
+    aside.panel.review-notice
+      .panel-heading
+        div
+          h2 Kamu tetap memegang kendali
+      .empty-state
+        p Periksa persyaratan, data profil, dan CV sebelum mengirim. Applier Jobes tidak mengisi atau mengirim formulir ke situs eksternal secara otomatis.
+        p Setelah selesai di situs perusahaan, kembali ke halaman ini dan tandai lamaran sebagai terkirim.
+      a.button.button-outline(href='/applications') Kembali ke pipeline

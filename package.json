@@ -1,0 +1,26 @@
+{
+  "name": "applier-jobes",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node ./bin/www",
+    "start": "node ./bin/www",
+    "check": "node --check app.js && node --check routes/index.js && node --check routes/auth.js && node --check lib/mysql-session-store.js && node --check lib/job-sources.js && node --check lib/pagination.js && node --check public/javascripts/navigation.js && node --check public/javascripts/feedback.js && node --check public/javascripts/browser-import.js && node --check public/javascripts/browser-import-login.js && node --check public/javascripts/browser-import-resume.js && node --check extension/job-extractor.js && node --check extension/popup.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "debug": "~2.6.9",
+    "dotenv": "^18.0.10",
+    "express": "^4.22.3",
+    "express-rate-limit": "^8.7.4",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "http-errors": "^2.0.1",
+    "morgan": "^1.12.1",
+    "multer": "^2.5.0",
+    "mysql2": "^3.24.6",
+    "pug": "^3.0.4"
+  }
+}

@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  section.page-heading
+    p.eyebrow IDENTITAS PROFESIONAL
+    h1 Profil & CV
+    p.welcome-copy Simpan ringkasan profil untuk melengkapi ruang kerja pencarianmu.
+  .profile-layout
+    .panel
+      .panel-heading
+        div
+          h2 Profil kandidat
+          p Informasi profil disimpan untuk akun yang sedang masuk.
+      form.settings-form(method='post', action='/profile')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        label(for='name') Nama lengkap
+        input#name(type='text', name='name', required, maxlength='100', autocomplete='name', value=profile.name)
+        label(for='email') Email akun
+        input#email(type='email', value=profile.email, disabled, aria-describedby='emailHint')
+        small#emailHint.form-hint Email akun tidak dapat diubah dari halaman ini.
+        label(for='headline') Jabatan profesional
+        input#headline(type='text', name='headline', maxlength='160', value=profile.headline, placeholder='Product Designer')
+        label(for='location') Lokasi
+        input#location(type='text', name='location', maxlength='120', value=profile.location, placeholder='Jakarta / Remote')
+        label(for='skills') Keahlian
+        input#skills(type='text', name='skills', maxlength='500', value=profile.skills, placeholder='Riset pengguna, Figma, prototyping')
+        label(for='summary') Ringkasan
+        textarea#summary(name='summary', rows='5', maxlength='5000', placeholder='Ceritakan pengalaman dan tujuan kariermu.')= profile.summary
+        button.button.button-primary(type='submit') Simpan profil
+    aside.panel.document-card
+      .panel-heading
+        div
+          h2 Dokumen CV
+          p CV PDF disimpan privat dan hanya bisa diakses oleh akunmu.
+      if profile.cv_original_name
+        .cv-file
+          strong= profile.cv_original_name
+          small #{(profile.cv_size / 1024).toFixed(0)} KB · Diunggah #{formatDate(profile.cv_uploaded_at)}
+          .cv-actions
+            a.button.button-outline(href='/profile/cv/download') Unduh CV
+            form(method='post', action='/profile/cv/delete')
+              input(type='hidden', name='_csrf', value=csrfToken)
+              button.button.button-outline(type='submit') Hapus
+      else
+        .empty-state Belum ada CV yang diunggah.
+      form.cv-upload(method='post', action='/profile/cv', enctype='multipart/form-data')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        label(for='cv') Unggah CV (PDF, maks. 5 MB)
+        input#cv(type='file', name='cv', accept='application/pdf,.pdf', required)
+        button.button.button-primary(type='submit') Unggah CV

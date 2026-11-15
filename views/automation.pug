@@ -1,0 +1,79 @@
+extends layout
+
+include partials/pagination.pug
+
+block content
+  section.page-heading
+    p.eyebrow ATURAN PENCARIAN
+    h1 Auto apply
+    p.welcome-copy Atur kriteria, tinjau rekomendasi, lalu ikuti checklist untuk melamar. Pengiriman dilakukan sendiri di situs perusahaan.
+  .automation-layout
+    .panel
+      .panel-heading
+        div
+          h2 Kriteria lowongan
+          p Isi aturan yang ingin kamu gunakan saat meninjau peluang.
+      form.settings-form(method='post', action='/automation')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        label(for='targetTitles') Jabatan yang dicari
+        input#targetTitles(type='text', name='targetTitles', maxlength='255', required, value=rule.target_titles, placeholder='Product Designer, UI/UX Designer')
+        label(for='locations') Lokasi
+        input#locations(type='text', name='locations', maxlength='255', required, value=rule.locations, placeholder='Jakarta, Remote')
+        label(for='workMode') Mode kerja
+        select#workMode(name='workMode')
+          option(value='any', selected=rule.work_mode === 'any') Semua mode
+          option(value='onsite', selected=rule.work_mode === 'onsite') On-site
+          option(value='hybrid', selected=rule.work_mode === 'hybrid') Hybrid
+          option(value='remote', selected=rule.work_mode === 'remote') Remote
+        label(for='weeklyLimit') Maksimum catatan per minggu
+        input#weeklyLimit(type='number', name='weeklyLimit', min='1', max='20', required, value=rule.weekly_limit)
+        button.button.button-primary(type='submit') Simpan kriteria
+    aside.panel.automation-info
+      .panel-heading
+        div
+          h2 Tinjauan & kendali
+          p Alur terpandu dengan persetujuan manual.
+      .automation-state
+        span.status-pill(class=rule.is_enabled ? 'status-enabled' : 'status-paused')= rule.is_enabled ? 'Aturan aktif' : 'Aturan dijeda'
+        p Saat aturan aktif, lowongan cocok akan ditampilkan. Pilih mulai untuk membuat draft dan membuka checklist; Applier Jobes tidak mengakses akun atau mengirim ke situs eksternal.
+        if rule.is_enabled
+          p #{weeklyCount} dari #{rule.weekly_limit} draft dibuat dalam 7 hari terakhir; #{weeklyRemaining} slot tersisa.
+      form(method='post', action='/automation/toggle')
+        input(type='hidden', name='_csrf', value=csrfToken)
+        button.button.button-outline(type='submit')= rule.is_enabled ? 'Jeda aturan' : 'Aktifkan aturan'
+      ul.feature-list
+        li Draft dibuat setelah kamu memilih lowongan yang cocok.
+        li Checklist membantu memeriksa profil, CV, dan persyaratan lowongan.
+        li Pengiriman tetap dilakukan manual olehmu di situs perusahaan.
+  section.match-section
+    .section-heading-row
+      div
+        h2 Lowongan yang cocok
+        p #{pagination.totalItems} lowongan belum ada di pipeline berdasarkan aturan tersimpan.
+    if suggestedJobs.length
+      .match-list
+        each job in suggestedJobs
+          article.job-card.job-card-detail
+            .job-logo= job.company_name.substring(0, 1)
+            .job-main
+              h3= job.title
+              p.company-line #{job.company_name} · #{job.location}
+              .job-tags
+                span= job.work_mode
+                span= job.source_name
+              small.job-posted Diposting #{formatDate(job.published_at)}
+            .job-actions
+              if job.apply_url
+                a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat sumber
+              form(method='post', action='/automation/jobs/' + job.id + '/draft')
+                input(type='hidden', name='_csrf', value=csrfToken)
+                button.button.button-primary(type='submit') Mulai lamaran terpandu
+    else
+      .panel.empty-state
+        if !rule.is_enabled
+          | Aktifkan aturan untuk menampilkan kecocokan lowongan. Pengiriman ke perusahaan tetap dilakukan manual.
+        else if weeklyRemaining === 0
+          | Batas draft 7 hari tercapai. Kamu masih bisa menelusuri lowongan dari menu Cari lowongan.
+        else
+          | Belum ada lowongan yang cocok. Periksa jabatan/lokasi atau cari lowongan lain.
+    +paginationControls(pagination)

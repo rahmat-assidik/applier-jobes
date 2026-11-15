@@ -1,0 +1,63 @@
+# Dependencies
+/node_modules/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+/secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+
+# User uploads and private runtime data
+/storage/private/
+/storage/uploads/
+/uploads/
+/tmp/
+
+# Generated output and test reports (keep test source files tracked)
+/build/
+/dist/
+/coverage/
+/.nyc_output/
+/test-results/
+/playwright-report/
+
+# Logs and local databases/backups
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.sql.gz
+*.backup
+
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+
+# Local AI assistant configuration and copied skill assets
+/.agents/
+/.augment/
+/.claude/
+/.codebuddy/
+/.codewhale/
+/.continue/
+/.cursor/
+/.factory/
+/.gemini/
+/.github/prompts/
+/.kilocode/
+/.kiro/
+/.opencode/
+/.qoder/
+/.roo/
+/.trae/
+/.warp/
+/.windsurf/

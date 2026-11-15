@@ -1,0 +1,87 @@
+extends layout
+
+include partials/source-status.pug
+include partials/pagination.pug
+
+block content
+  section.welcome-row
+    div
+      p.eyebrow RUANG KERJA PENCARIAN KERJA
+      h1 Selamat datang, #{currentUser.name}
+      p.welcome-copy Ringkasan pencarian dan langkah berikutnya ada di sini.
+    a.button.button-primary(href='/jobs') Temukan lowongan
+  +sourceStatusList(sourceStatus)
+  section.stats-grid(aria-label='Ringkasan lamaran')
+    article.stat-card
+      span.stat-label Total lamaran
+      strong.stat-value= totalApplications
+      span.stat-foot Tersimpan di pipeline kamu
+    article.stat-card
+      span.stat-label Dalam proses
+      strong.stat-value= (statusCounts.submitted || 0) + (statusCounts.viewed || 0) + (statusCounts.screening || 0) + (statusCounts.interview || 0)
+      span.stat-foot Terkirim, ditinjau, atau interview
+    article.stat-card
+      span.stat-label Lowongan tersimpan
+      strong.stat-value= savedCount || 0
+      span.stat-foot
+        a(href='/saved-jobs') Buka daftar tersimpan
+    article.stat-card
+      span.stat-label Auto apply
+      strong.stat-value= automation.is_enabled ? 'Aktif' : 'Jeda'
+      span.stat-foot
+        a(href='/automation') Atur kriteria
+  section.dashboard-grid
+    .panel
+      .panel-heading
+        div
+          h2 Lowongan terbaru
+          p #{jobsPagination ? jobsPagination.totalItems : jobs.length} lowongan aktif dari sumber langsung dan data contoh.
+        a.text-button(href='/jobs') Lihat semua →
+      if jobs.length
+        .job-list
+          each job in jobs
+            article.job-card
+              .job-logo= job.company_name.substring(0, 1)
+              .job-main
+                h3= job.title
+                p.company-line #{job.company_name} · #{job.location}
+                .job-tags
+                  span= job.work_mode
+                  span= job.employment_type
+                  span= formatMoney(job.salary_min)
+              if job.apply_url
+                a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat lowongan
+              else
+                a.button.button-outline(href='/jobs?q=' + encodeURIComponent(job.title)) Detail
+      else
+        .empty-state Belum ada lowongan di database. Tambahkan contoh lowongan melalui database/schema.sql.
+      +paginationControls(jobsPagination)
+    .panel
+      .panel-heading
+        div
+          h2 Lamaran terbaru
+          p #{applicationsPagination ? applicationsPagination.totalItems : recentApplications.length} catatan lamaran. Periksa statusmu.
+        a.text-button(href='/applications') Buka pipeline →
+      if recentApplications.length
+        .activity-list
+          each application in recentApplications
+            .activity-item
+              span.activity-marker
+              div
+                p
+                  strong= application.title
+                  |  · #{application.company_name}
+                span= statusLabels[application.status]
+                small= formatDate(application.updated_at)
+      else
+        .empty-state Belum ada lamaran. Cari lowongan dan catat sebagai draft.
+      +paginationControls(applicationsPagination)
+  section.automation-summary
+    .automation-summary-icon(aria-hidden='true')
+      svg(viewBox='0 0 24 24')
+        path(d='M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2.1 2.1m7.8 7.8L18 18m0-12-2.1 2.1m-7.8 7.8L6 18')
+        circle(cx='12', cy='12', r='4.3')
+    div
+      strong Auto apply membutuhkan tinjauanmu
+      p Atur jabatan dan lokasi, lalu tinjau lowongan secara manual. Aplikasi ini belum mengirim lamaran ke situs eksternal.
+    a.button.button-outline(href='/automation') Kelola aturan

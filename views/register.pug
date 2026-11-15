@@ -1,0 +1,18 @@
+extends auth-layout
+
+block content
+  span.auth-kicker MULAI PERJALANANMU
+  h1 Buat akun Applier
+  p.auth-copy Siapkan satu ruang kerja untuk rencana karier berikutnya.
+  form.auth-form(action='/register', method='post')
+    input(type='hidden', name='_csrf', value=csrfToken)
+    label(for='name') Nama lengkap
+    input#name(type='text', name='name', required, maxlength='100', autocomplete='name', placeholder='Nama kamu')
+    label(for='email') Email
+    input#email(type='email', name='email', required, maxlength='254', autocomplete='email', placeholder='nama@email.com')
+    label(for='password') Kata sandi
+    input#password(type='password', name='password', required, minlength='10', maxlength='72', autocomplete='new-password', aria-describedby='passwordHint', placeholder='Minimal 10 karakter')
+    small#passwordHint.form-hint Gunakan minimal 10 karakter.
+    button.button.button-primary.auth-submit(type='submit') Buat akun
+  p.auth-switch Sudah terdaftar? 
+    a(href='/login') Masuk

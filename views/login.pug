@@ -1,0 +1,15 @@
+extends auth-layout
+
+block content
+  span.auth-kicker MULAI CARI KERJA
+  h1 Selamat datang kembali
+  p.auth-copy Masuk untuk melanjutkan pencarian kerja kamu.
+  form.auth-form(action='/login', method='post')
+    input(type='hidden', name='_csrf', value=csrfToken)
+    label(for='email') Email
+    input#email(type='email', name='email', required, maxlength='254', autocomplete='email', placeholder='nama@email.com')
+    label(for='password') Kata sandi
+    input#password(type='password', name='password', required, maxlength='72', autocomplete='current-password', placeholder='Masukkan kata sandi')
+    button.button.button-primary.auth-submit(type='submit') Masuk
+  p.auth-switch Belum punya akun? 
+    a(href='/register') Buat akun

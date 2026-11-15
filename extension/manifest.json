@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Applier Jobes - Impor Lowongan",
+  "version": "1.1.0",
+  "description": "Impor lowongan publik yang terstruktur atau terlihat pada halaman karier aktif.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_title": "Impor lowongan ke Applier Jobes",
+    "default_popup": "popup.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "applier-jobes-import@local",
+      "strict_min_version": "128.0"
+    }
+  }
+}

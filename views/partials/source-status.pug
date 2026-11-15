@@ -1,0 +1,44 @@
+mixin sourceStatusList(sources)
+  section.source-status(aria-label='Status sumber lowongan')
+    each source in sources
+      if source.status === 'updated'
+        article.source-status-item.source-status-success
+          span.source-status-icon(aria-hidden='true')
+            svg(viewBox='0 0 24 24')
+              path(d='m5 12 4 4L19 6')
+          div.source-status-copy
+            div.source-status-heading
+              strong= source.name
+              span.source-status-badge Terhubung
+            p #{source.count} lowongan tersedia dari sumber langsung.
+      else if source.status === 'not-configured'
+        article.source-status-item.source-status-info
+          span.source-status-icon(aria-hidden='true')
+            svg(viewBox='0 0 24 24')
+              circle(cx='12', cy='12', r='9')
+              path(d='M12 11v5m0-8h.01')
+          div.source-status-copy
+            div.source-status-heading
+              strong= source.name
+              span.source-status-badge Perlu konfigurasi
+            p Aktifkan sumber ini untuk menampilkan lebih banyak lowongan Indonesia.
+            a.source-status-link(href='https://developer.adzuna.com/overview', target='_blank', rel='noopener noreferrer') Dapatkan API ID dan key
+            span.source-status-hint
+              | lalu isi 
+              code ADZUNA_APP_ID
+              |  dan 
+              code ADZUNA_APP_KEY
+              |  di 
+              code .env
+              | .
+      else
+        article.source-status-item.source-status-warning
+          span.source-status-icon(aria-hidden='true')
+            svg(viewBox='0 0 24 24')
+              path(d='M12 3 2.8 19h18.4L12 3Z')
+              path(d='M12 9v4m0 3h.01')
+          div.source-status-copy
+            div.source-status-heading
+              strong= source.name
+              span.source-status-badge Gagal diperbarui
+            p Lowongan tersimpan sebelumnya tetap tersedia. Coba muat ulang nanti.

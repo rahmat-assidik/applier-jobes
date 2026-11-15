@@ -1,0 +1,60 @@
+extends layout
+
+include partials/source-status.pug
+include partials/pagination.pug
+
+block content
+  section.page-heading
+    p.eyebrow PENCARIAN KERJA
+    h1 Cari lowongan
+    p.welcome-copy Lowongan sumber langsung diperbarui berkala; periksa detail dan persyaratan di situs pemberi kerja.
+  .alert.alert-info.browser-import-hint
+    strong Impor dari halaman karier
+    p Setelah memfilter lowongan di situs karier, gunakan ekstensi Applier Jobes untuk mengimpor kartu lowongan yang sudah dimuat pada halaman itu. Tinjau dan konfirmasi hasil di aplikasi. Ekstensi tidak berpindah halaman atau menjalankan pencarian tambahan. Pastikan situs mengizinkan penggunaan datanya.
+  .panel
+    form.job-filters(method='get', action='/jobs')
+      label.sr-only(for='jobQuery') Kata kunci
+      input#jobQuery(type='search', name='q', value=search, placeholder='Contoh: Product Designer')
+      label.sr-only(for='jobLocation') Lokasi
+      input#jobLocation(type='search', name='location', value=location, placeholder='Lokasi, mis. Indonesia')
+      label.sr-only(for='workMode') Mode kerja
+      select#workMode(name='workMode')
+        each mode in workModes
+          option(value=mode, selected=workMode === mode)= mode === 'any' ? 'Semua mode kerja' : mode
+      button.button.button-primary(type='submit') Cari
+    +sourceStatusList(sourceStatus)
+    .panel-heading
+      div
+        h2 #{pagination.totalItems} lowongan ditemukan
+        p Lowongan disertai sumber dan tautan ke situs aslinya.
+    if jobs.length
+      .job-list
+        each job in jobs
+          article.job-card.job-card-detail
+            .job-logo= job.company_name.substring(0, 1)
+            .job-main
+              h2= job.title
+              p.company-line #{job.company_name} · #{job.location}
+              .job-tags
+                span= job.work_mode
+                span= job.employment_type
+                span= formatMoney(job.salary_min) + ' – ' + formatMoney(job.salary_max)
+              p.job-description= job.description
+              small.job-posted
+                | #{job.source_name} · Diposting #{formatDate(job.published_at)}
+            .job-actions
+              if job.apply_url
+                a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat sumber
+              form(method='post', action='/jobs/' + job.id + '/save')
+                input(type='hidden', name='_csrf', value=csrfToken)
+                input(type='hidden', name='returnTo', value=returnTo)
+                if job.is_saved
+                  button.button.button-outline(type='submit', name='action', value='remove') Hapus simpanan
+                else
+                  button.button.button-outline(type='submit', name='action', value='save') Simpan
+              form(method='post', action='/jobs/' + job.id + '/apply')
+                input(type='hidden', name='_csrf', value=csrfToken)
+                button.button.button-primary(type='submit') Siapkan draft
+    else
+      .empty-state Belum ada hasil. Coba kata kunci lain atau hapus filter.
+    +paginationControls(pagination)

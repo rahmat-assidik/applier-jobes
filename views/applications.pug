@@ -1,0 +1,48 @@
+extends layout
+
+include partials/pagination.pug
+
+block content
+  section.page-heading
+    p.eyebrow PIPELINE PENCARIAN
+    h1 Lamaran saya
+    p.welcome-copy Catat progres lamaran dan perbarui statusnya saat ada kabar baru.
+  .panel
+    .panel-heading
+      div
+        h2 #{pagination.totalItems} catatan lamaran
+        p Membuat catatan tidak mengirim lamaran ke perusahaan.
+    if applications.length
+      .table-wrap
+        table
+          thead
+            tr
+              th Posisi
+              th Perusahaan
+              th Tanggal dicatat
+              th Status
+              th Perbarui status
+              th Tinjau
+          tbody
+            each application in applications
+              tr
+                td
+                  strong= application.title
+                  small #{application.location} · #{application.work_mode}
+                td= application.company_name
+                td= formatDate(application.applied_at)
+                td
+                  span.application-status(class='status-' + application.status)= statusLabels[application.status]
+                td
+                  form.status-form(method='post', action='/applications/' + application.id + '/status')
+                    input(type='hidden', name='_csrf', value=csrfToken)
+                    input(type='hidden', name='returnTo', value='/applications?page=' + pagination.page)
+                    select(name='status', aria-label='Status lamaran ' + application.title)
+                      each status in applicationStatuses
+                        option(value=status, selected=application.status === status)= statusLabels[status]
+                    button.button.button-outline(type='submit') Simpan
+                td
+                  a.text-button(href='/applications/' + application.id + '/review') Tinjau lamaran
+    else
+      .empty-state Belum ada lamaran. Buka Cari lowongan untuk membuat catatan lamaran.
+    +paginationControls(pagination)
