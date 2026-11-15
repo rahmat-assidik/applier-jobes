@@ -1,8 +1,19 @@
 # Applier Jobes
 
+![Node.js 18+](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)
+![Express 4](https://img.shields.io/badge/Express-4.x-000000?logo=express&logoColor=white)
+![MySQL/MariaDB](https://img.shields.io/badge/Database-MySQL%20%2F%20MariaDB-4479A1?logo=mysql&logoColor=white)
+![Pug](https://img.shields.io/badge/Views-Pug-A86454?logo=pug&logoColor=white)
+
 Applier Jobes adalah aplikasi web pencarian kerja dengan dashboard, halaman terpisah untuk setiap menu, autentikasi pengguna, dan backend Express yang menyimpan data serta sesi di MySQL/MariaDB.
 
 > **Penting:** Applier Jobes mengambil lowongan publik dari API sumber dengan atribusi dan tautan ke situs asli. Data lowongan contoh lokal tetap tersedia. Auto apply mencocokkan dan menyiapkan draft; pengiriman tetap dilakukan manual oleh pengguna pada situs perusahaan.
+
+## Pratinjau aplikasi
+
+Berikut pratinjau halaman login Applier Jobes. Dashboard dan data pengguna hanya tampil setelah masuk ke akun.
+
+![Pratinjau halaman login Applier Jobes](docs/images/app-login-preview.svg)
 
 ## Fitur yang tersedia
 

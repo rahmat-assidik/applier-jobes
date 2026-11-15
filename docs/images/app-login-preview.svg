@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900" fill="none">
+  <rect width="1280" height="900" fill="#F0F9FF"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <g transform="translate(480 76)">
+      <rect width="56" height="56" rx="15" fill="#0369A1"/>
+      <path d="m15 29 10 10 18-21" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="70" y="39" fill="#0C4A6E" font-size="29" font-weight="700">applier<tspan fill="#64748B" font-weight="400">jobes</tspan></text>
+    </g>
+    <rect x="340" y="166" width="600" height="584" rx="18" fill="#fff" stroke="#BAE6FD" stroke-width="2"/>
+    <text x="386" y="226" fill="#0369A1" font-size="14" font-weight="700" letter-spacing="2">MULAI CARI KERJA</text>
+    <text x="386" y="278" fill="#0C4A6E" font-size="34" font-weight="700">Selamat datang kembali</text>
+    <text x="386" y="318" fill="#7D899D" font-size="18">Masuk untuk melanjutkan pencarian kerja kamu.</text>
+    <text x="386" y="374" fill="#475569" font-size="16" font-weight="700">Email</text>
+    <rect x="386" y="391" width="508" height="56" rx="9" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="406" y="426" fill="#7D899D" font-size="17">nama@email.com</text>
+    <text x="386" y="483" fill="#475569" font-size="16" font-weight="700">Kata sandi</text>
+    <rect x="386" y="500" width="508" height="56" rx="9" fill="#fff" stroke="#CBD5E1" stroke-width="2"/>
+    <text x="406" y="535" fill="#7D899D" font-size="17">Masukkan kata sandi</text>
+    <rect x="386" y="577" width="508" height="54" rx="9" fill="#0369A1"/>
+    <text x="640" y="611" fill="#fff" font-size="17" font-weight="700" text-anchor="middle">Masuk</text>
+    <text x="640" y="673" fill="#7D899D" font-size="15" text-anchor="middle">Belum punya akun?</text>
+    <text x="640" y="698" fill="#0369A1" font-size="15" font-weight="700" text-anchor="middle">Buat akun</text>
+    <text x="640" y="805" fill="#8B97A9" font-size="13" text-anchor="middle">Dengan menggunakan Applier Jobes, kamu tetap mengendalikan data dan setiap lamaran.</text>
+  </g>
+</svg>
