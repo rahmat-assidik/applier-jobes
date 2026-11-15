@@ -46,34 +46,35 @@ block content
         li Checklist membantu memeriksa profil, CV, dan persyaratan lowongan.
         li Pengiriman tetap dilakukan manual olehmu di situs perusahaan.
   section.match-section
-    .section-heading-row
-      div
-        h2 Lowongan yang cocok
-        p #{pagination.totalItems} lowongan belum ada di pipeline berdasarkan aturan tersimpan.
-    if suggestedJobs.length
-      .match-list
-        each job in suggestedJobs
-          article.job-card.job-card-detail
-            .job-logo= job.company_name.substring(0, 1)
-            .job-main
-              h3= job.title
-              p.company-line #{job.company_name} · #{job.location}
-              .job-tags
-                span= job.work_mode
-                span= job.source_name
-              small.job-posted Diposting #{formatDate(job.published_at)}
-            .job-actions
-              if job.apply_url
-                a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat sumber
-              form(method='post', action='/automation/jobs/' + job.id + '/draft')
-                input(type='hidden', name='_csrf', value=csrfToken)
-                button.button.button-primary(type='submit') Mulai lamaran terpandu
-    else
-      .panel.empty-state
-        if !rule.is_enabled
-          | Aktifkan aturan untuk menampilkan kecocokan lowongan. Pengiriman ke perusahaan tetap dilakukan manual.
-        else if weeklyRemaining === 0
-          | Batas draft 7 hari tercapai. Kamu masih bisa menelusuri lowongan dari menu Cari lowongan.
-        else
-          | Belum ada lowongan yang cocok. Periksa jabatan/lokasi atau cari lowongan lain.
+    .panel.match-panel
+      .panel-heading
+        div
+          h2 Lowongan yang cocok
+          p #{pagination.totalItems} lowongan belum ada di pipeline berdasarkan aturan tersimpan.
+      if suggestedJobs.length
+        .match-list
+          each job in suggestedJobs
+            article.job-card.job-card-detail.auto-apply-job
+              .job-logo= job.company_name.substring(0, 1)
+              .job-main
+                h3= job.title
+                p.company-line #{job.company_name} · #{job.location}
+                .job-tags
+                  span= job.work_mode
+                  span= job.source_name
+                small.job-posted Diposting #{formatDate(job.published_at)}
+              .job-actions
+                if job.apply_url
+                  a.button.button-outline(href=job.apply_url, target='_blank', rel='noopener noreferrer') Lihat sumber
+                form(method='post', action='/automation/jobs/' + job.id + '/draft')
+                  input(type='hidden', name='_csrf', value=csrfToken)
+                  button.button.button-primary(type='submit') Mulai lamaran terpandu
+      else
+        .empty-state.match-empty-state
+          if !rule.is_enabled
+            | Aktifkan aturan untuk menampilkan kecocokan lowongan. Pengiriman ke perusahaan tetap dilakukan manual.
+          else if weeklyRemaining === 0
+            | Batas draft 7 hari tercapai. Kamu masih bisa menelusuri lowongan dari menu Cari lowongan.
+          else
+            | Belum ada lowongan yang cocok. Periksa jabatan/lokasi atau cari lowongan lain.
     +paginationControls(pagination)

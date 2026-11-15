@@ -39,20 +39,78 @@ test('authenticated layout renders accessible toast feedback and client handler'
 
   assert.match(html, /id="toastRegion" aria-live="polite"/);
   assert.match(html, /class="toast toast-success" role="status"/);
+  assert.match(html, /class="toast-icon" aria-hidden="true"/);
+  assert.match(html, /class="toast-title">Berhasil<\/strong>/);
+  assert.match(html, /class="toast-description">Profil berhasil disimpan\.<\/span>/);
   assert.match(html, /aria-label="Tutup pemberitahuan"/);
   assert.match(html, /\/javascripts\/feedback\.js/);
+  assert.match(html, /class="source-status dashboard-source-status"/);
 });
 
-test('auth layout announces error feedback assertively', function() {
+test('login uses inline errors and a loading button instead of toast feedback', function() {
   var html = pug.renderFile(path.join(viewsDirectory, 'login.pug'), {
     title: 'Masuk',
     csrfToken: 'test-token',
     flash: { type: 'error', message: 'Email atau kata sandi tidak cocok.' }
   });
 
+  assert.match(html, /class="alert alert-error" role="alert"/);
+  assert.match(html, /class="auth-submit-spinner" aria-hidden="true" hidden/);
+  assert.match(html, /class="auth-submit-label">Masuk<\/span>/);
+  assert.match(html, /\/javascripts\/login-submit\.js/);
+  assert.doesNotMatch(html, /toastRegion|toast-error|\/javascripts\/feedback\.js/);
+});
+
+test('registration keeps accessible toast feedback', function() {
+  var html = pug.renderFile(path.join(viewsDirectory, 'register.pug'), {
+    title: 'Daftar',
+    csrfToken: 'test-token',
+    flash: { type: 'error', message: 'Email sudah digunakan.' }
+  });
+
   assert.match(html, /id="toastRegion" aria-live="assertive"/);
   assert.match(html, /class="toast toast-error" role="alert"/);
+  assert.match(html, /class="toast-title">Terjadi kesalahan<\/strong>/);
+  assert.match(html, /class="toast-description">Email sudah digunakan\.<\/span>/);
   assert.match(html, /\/javascripts\/feedback\.js/);
+});
+
+test('auto apply recommendations render inside a responsive match panel', function() {
+  var html = pug.renderFile(path.join(viewsDirectory, 'automation.pug'), {
+    title: 'Auto apply',
+    activeNav: 'automation',
+    currentUser: { id: 1, name: 'Rani', email: 'rani@example.test' },
+    csrfToken: 'test-token',
+    flash: null,
+    navItems: [],
+    rule: {
+      target_titles: 'Designer',
+      locations: 'Jakarta',
+      work_mode: 'any',
+      weekly_limit: 5,
+      is_enabled: true
+    },
+    weeklyCount: 1,
+    weeklyRemaining: 4,
+    suggestedJobs: [{
+      id: 12,
+      company_name: 'Contoh Perusahaan',
+      title: 'Product Designer',
+      location: 'Jakarta',
+      work_mode: 'hybrid',
+      source_name: 'Career page',
+      published_at: '2026-11-15',
+      apply_url: 'https://example.com/jobs/12'
+    }],
+    pagination: { totalItems: 1 },
+    formatDate: function(date) { return date; }
+  });
+
+  assert.match(html, /class="panel match-panel"/);
+  assert.match(html, /Lowongan yang cocok/);
+  assert.match(html, /class="job-card job-card-detail auto-apply-job"/);
+  assert.match(html, /Lihat sumber/);
+  assert.match(html, /Mulai lamaran terpandu/);
 });
 
 test('login view renders a CSRF-protected form', function() {

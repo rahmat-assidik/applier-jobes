@@ -1,7 +1,21 @@
 if flash
   #toastRegion.toast-region(aria-live=flash.type === 'error' ? 'assertive' : 'polite', aria-atomic='false')
     .toast(role=flash.type === 'error' ? 'alert' : 'status', class='toast-' + flash.type, data-toast='true')
-      span.toast-message= flash.message
-      button.toast-dismiss(type='button', aria-label='Tutup pemberitahuan') ×
+      span.toast-icon(aria-hidden='true')
+        svg(viewBox='0 0 20 20')
+          if flash.type === 'success'
+            path(d='m5.5 10.2 2.9 2.9 6.1-6.2')
+          else if flash.type === 'error'
+            path(d='m6.5 6.5 7 7m0-7-7 7')
+          else if flash.type === 'warning'
+            path(d='M10 5.5v5m0 3h.01')
+          else
+            path(d='M10 8.5v4m0-7h.01')
+      .toast-message
+        strong.toast-title= flash.type === 'success' ? 'Berhasil' : flash.type === 'error' ? 'Terjadi kesalahan' : flash.type === 'warning' ? 'Perlu diperhatikan' : 'Informasi'
+        span.toast-description= flash.message
+      button.toast-dismiss(type='button', aria-label='Tutup pemberitahuan')
+        svg(viewBox='0 0 20 20', aria-hidden='true')
+          path(d='m5 5 10 10M15 5 5 15')
 else
   #toastRegion.toast-region(aria-live='polite', aria-atomic='false')

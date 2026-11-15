@@ -1,5 +1,5 @@
-mixin sourceStatusList(sources)
-  section.source-status(aria-label='Status sumber lowongan')
+mixin sourceStatusList(sources, extraClass)
+  section.source-status(class=extraClass, aria-label='Status sumber lowongan')
     each source in sources
       if source.status === 'updated'
         article.source-status-item.source-status-success

@@ -1,6 +1,8 @@
 extends auth-layout
 
 block content
+  if flash
+    .alert(class='alert-' + flash.type, role=flash.type === 'error' ? 'alert' : 'status')= flash.message
   span.auth-kicker MULAI CARI KERJA
   h1 Selamat datang kembali
   p.auth-copy Masuk untuk melanjutkan pencarian kerja kamu.
@@ -10,6 +12,11 @@ block content
     input#email(type='email', name='email', required, maxlength='254', autocomplete='email', placeholder='nama@email.com')
     label(for='password') Kata sandi
     input#password(type='password', name='password', required, maxlength='72', autocomplete='current-password', placeholder='Masukkan kata sandi')
-    button.button.button-primary.auth-submit(type='submit') Masuk
+    button.button.button-primary.auth-submit(type='submit')
+      span.auth-submit-spinner(aria-hidden='true', hidden)
+      span.auth-submit-label Masuk
   p.auth-switch Belum punya akun? 
     a(href='/register') Buat akun
+
+block authFeedback
+  script(src='/javascripts/login-submit.js', defer)

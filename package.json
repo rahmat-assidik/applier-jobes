@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node ./bin/www",
     "start": "node ./bin/www",
-    "check": "node --check app.js && node --check routes/index.js && node --check routes/auth.js && node --check lib/mysql-session-store.js && node --check lib/job-sources.js && node --check lib/pagination.js && node --check public/javascripts/navigation.js && node --check public/javascripts/feedback.js && node --check public/javascripts/browser-import.js && node --check public/javascripts/browser-import-login.js && node --check public/javascripts/browser-import-resume.js && node --check extension/job-extractor.js && node --check extension/popup.js",
+    "check": "node --check app.js && node --check routes/index.js && node --check routes/auth.js && node --check lib/mysql-session-store.js && node --check lib/job-sources.js && node --check lib/pagination.js && node --check public/javascripts/navigation.js && node --check public/javascripts/feedback.js && node --check public/javascripts/login-submit.js && node --check public/javascripts/browser-import.js && node --check public/javascripts/browser-import-login.js && node --check public/javascripts/browser-import-resume.js && node --check extension/job-extractor.js && node --check extension/popup.js",
     "test": "node --test test/*.test.js"
   },
   "dependencies": {

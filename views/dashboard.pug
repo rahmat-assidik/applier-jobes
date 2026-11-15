@@ -10,7 +10,7 @@ block content
       h1 Selamat datang, #{currentUser.name}
       p.welcome-copy Ringkasan pencarian dan langkah berikutnya ada di sini.
     a.button.button-primary(href='/jobs') Temukan lowongan
-  +sourceStatusList(sourceStatus)
+  +sourceStatusList(sourceStatus, 'dashboard-source-status')
   section.stats-grid(aria-label='Ringkasan lamaran')
     article.stat-card
       span.stat-label Total lamaran

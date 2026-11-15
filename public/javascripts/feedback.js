@@ -8,20 +8,53 @@
 
   function showToast(message, state, persistent) {
     var toast = document.createElement('div');
-    var text = document.createElement('span');
+    var icon = document.createElement('span');
+    var iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    var iconPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    var content = document.createElement('div');
+    var title = document.createElement('strong');
+    var description = document.createElement('span');
     var closeButton = document.createElement('button');
     var isError = state === 'error';
+    var isSuccess = state === 'success';
+    var isWarning = state === 'warning';
+    var isProcessing = state === 'info' && /^(Sedang|Menyiapkan)/i.test(message);
+    var titleText = isSuccess ? 'Berhasil' : isError ? 'Terjadi kesalahan' : isWarning ? 'Perlu diperhatikan' : isProcessing ? 'Sedang diproses' : 'Informasi';
 
     toast.className = 'toast toast-' + (state || 'info');
     toast.setAttribute('role', isError ? 'alert' : 'status');
-    text.className = 'toast-message';
-    text.textContent = message;
+    icon.className = 'toast-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    iconSvg.setAttribute('viewBox', '0 0 20 20');
+    icon.appendChild(iconSvg);
+    iconPath.setAttribute('d', isSuccess
+      ? 'm5.5 10.2 2.9 2.9 6.1-6.2'
+      : isError
+        ? 'm6.5 6.5 7 7m0-7-7 7'
+        : isWarning
+          ? 'M10 5.5v5m0 3h.01'
+          : 'M10 8.5v4m0-7h.01');
+    iconSvg.appendChild(iconPath);
+    content.className = 'toast-message';
+    title.className = 'toast-title';
+    title.textContent = titleText;
+    description.className = 'toast-description';
+    description.textContent = message;
     closeButton.className = 'toast-dismiss';
     closeButton.type = 'button';
     closeButton.setAttribute('aria-label', 'Tutup pemberitahuan');
-    closeButton.textContent = '×';
+    var closeSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    var closePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    closeSvg.setAttribute('viewBox', '0 0 20 20');
+    closeSvg.setAttribute('aria-hidden', 'true');
+    closePath.setAttribute('d', 'm5 5 10 10M15 5 5 15');
+    closeSvg.appendChild(closePath);
+    closeButton.appendChild(closeSvg);
     closeButton.addEventListener('click', function() { dismissToast(toast); });
-    toast.appendChild(text);
+    content.appendChild(title);
+    content.appendChild(description);
+    toast.appendChild(icon);
+    toast.appendChild(content);
     toast.appendChild(closeButton);
     region.setAttribute('aria-live', isError ? 'assertive' : 'polite');
     region.appendChild(toast);

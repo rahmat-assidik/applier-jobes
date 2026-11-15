@@ -19,5 +19,6 @@ html(lang='id')
       .auth-card
         block content
       p.auth-footnote Dengan menggunakan Applier Jobes, kamu tetap mengendalikan data dan setiap lamaran.
-    include partials/feedback-toast.pug
-    script(src='/javascripts/feedback.js', defer)
+    block authFeedback
+      include partials/feedback-toast.pug
+      script(src='/javascripts/feedback.js', defer)
