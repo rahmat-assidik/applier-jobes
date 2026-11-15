@@ -11,9 +11,9 @@ Applier Jobes adalah aplikasi web pencarian kerja dengan dashboard, halaman terp
 
 ## Pratinjau aplikasi
 
-Berikut pratinjau halaman login Applier Jobes. Dashboard dan data pengguna hanya tampil setelah masuk ke akun.
+Berikut screenshot dashboard Applier Jobes dari aplikasi yang berjalan.
 
-![Pratinjau halaman login Applier Jobes](docs/images/app-login-preview.svg)
+![Screenshot dashboard Applier Jobes](docs/images/dashboard.png)
 
 ## Fitur yang tersedia
 
